@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="Styles/styles.css">
+    <style>
+      .imagen_cuenta{
+        height: 200px;
+        width: 200px;
+      }
+
+      .perfil-col {
+        flex: 0 0 300px;
+        max-width: 300px; 
+      }
+
+      .contenido-col {
+        flex-grow: 1;
+      }
+    </style>
 
 </head>
 <body>
@@ -45,6 +61,71 @@
           </button>
         </div>
       </nav>
+
+      <!-- Perfil e Info -->
+      <section class="container mt-4">
+        <div class="row">
+            <!-- Columna de perfil -->
+            <div class="col-md-6 text-center ">
+                <div class="mb-3">
+                    <img src="images/fotoPrueba.png" class="rounded-circle img-fluid imagen_cuenta col-md-6 float-md-start mb-3 ms-md-3" alt="Foto de Perfil">
+                </div>
+                <h4>Nombre</h4>
+                <h4>Correo</h4>
+                <h4>Contraseña</h4>
+                <button class="btn btn-warning">Editar</button>
+            </div>
+    
+            <!-- Columna de recetas -->
+            <div class="col-md-3">
+                <h4 class="text-decoration-underline text-center">Recetas</h4>
+                <input type="date" class="form-control mb-2">
+                <div class="card mb-2">
+                    <img src="images/ribeye.jpg" class="card-img-top" alt="Receta">
+                    <div class="card-body">
+                        <p class="card-text">Ribeye</p>
+                    </div>
+                </div>
+                <div class="card mb-2">
+                    <img src="images/cesar.jpg" class="card-img-top" alt="Receta">
+                    <div class="card-body">
+                        <p class="card-text">Nombre de la receta</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Columna de productos -->
+            <div class="col-md-3">
+                <h4 class="text-decoration-underline text-center">Productos</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Tomate</li>
+                    <li class="list-group-item">Brocoli</li>
+                    <li class="list-group-item">Carne Roja</li>
+                </ul>
+            </div>
+
+            <div class="w-100 d-none d-md-block"></div>
+
+            <!-- Columna de preferencias y restricciones -->
+            <div class="col-md-3 text-center">
+              <h5>Preferencias</h5>
+              <ul class="list-group mb-3">
+                  <li class="list-group-item">Carnes</li>
+                  <li class="list-group-item">Ensaladas</li>
+              </ul>
+              <button class="btn btn-primary">Modificar</button>
+              </div>
+              <div class="col-md-3 text-center">
+              <h5>Restricciones</h5>
+              <ul class="list-group mb-3">
+                  <li class="list-group-item">Lácteos</li>
+                  <li class="list-group-item">Mar</li>
+              </ul>
+              <button class="btn btn-primary">Modificar</button>
+          </div>
+
+        </div>
+    </section>
     
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
