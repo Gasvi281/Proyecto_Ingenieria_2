@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            /* Ajusta según el tamaño que quieras */
+            object-fit: cover;
+            /* Para que la imagen se recorte y llene el espacio */
+        }
+
+        .card {
+            height: 100%;
+            background-color: #e27c54;
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar sticky-top" style="background-color: #e27c54;">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand mx-auto" href="#">KyriosFood</a>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="paginaPrincipal.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="paginaRecetas.html">Recetas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="productos.html">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Lista</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="cuenta.html">Cuenta</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <button type="button" class="btn btn-danger">Inicio Sesion</button>
+        </div>
+    </nav>
+
+    <!-- Buscador -->
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar productos..." aria-label="Buscar">
+                    <button class="btn btn-danger" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor de productos -->
+    <!-- Contenedor de productos -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/CarneRoja.jpg" class="card-img-top"
+                        alt="Carne Roja">
+                    <div class="card-body">
+                        <h5 class="card-title">Carne Roja</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Carnes</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Pescado.jpg" class="card-img-top" alt="Pescado">
+                    <div class="card-body">
+                        <h5 class="card-title">Pescado</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Carnes</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Camarones.jpg" class="card-img-top"
+                        alt="Camarones">
+                    <div class="card-body">
+                        <h5 class="card-title">Camarones</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Mariscos</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Pollo.jpg" class="card-img-top" alt="Pollo">
+                    <div class="card-body">
+                        <h5 class="card-title">Pollo</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Carnes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Tomates.jpg" class="card-img-top" alt="Tomate">
+                    <div class="card-body">
+                        <h5 class="card-title">Tomate</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Verduras</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Brocoli.jpg" class="card-img-top" alt="Brocoli">
+                    <div class="card-body">
+                        <h5 class="card-title">Brocoli</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Verdura</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Zanahorias.jpg" class="card-img-top"
+                        alt="Zanahoria">
+                    <div class="card-body">
+                        <h5 class="card-title">Zanahoria</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Verduras</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Limones.jpg" class="card-img-top" alt="Limon">
+                    <div class="card-body">
+                        <h5 class="card-title">Limon</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Frutas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/papas.jpg" class="card-img-top" alt="Papa">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Papa</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Verdura</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Pan.jpg" class="card-img-top" alt="Pan">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Pan</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Cereales</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/bananos.jpg" class="card-img-top" alt="Bananos">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Bananos</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Frutas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="images/Manzanas.jpg" class="card-img-top"
+                        alt="Manzanas">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Manzanas</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoria: Frutas</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
