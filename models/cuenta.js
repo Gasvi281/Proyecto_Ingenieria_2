@@ -2,7 +2,7 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    class cuenta extends Model {
+    class Cuenta extends Model {
         static associate(models) {
             // Definir asociaciones aquí si es necesario
         }
@@ -10,11 +10,22 @@ module.exports = (sequelize) => {
 
     cuenta.init(
         {
-            nombreUsuario: {
-                type: DataTypes.STRING,
-                unique:true,
+        
+            id:{
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4, // Genera un UUID automáticamente
                 allowNull: false,
                 primaryKey: true, // Define 'id' como clave primaria
+            },
+            nombreUsuario: {
+                type: DataTypes.STRING,
+                unique: true,
+                allowNull: false,
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true,
             },
             nombre: {
                 type: DataTypes.STRING,
@@ -32,15 +43,22 @@ module.exports = (sequelize) => {
                 //Foreign key
 
             },
+            estado: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "Activo"
+
+            },
+
 
         },
         {
             sequelize,
-            modelName: "Usuario",
-            tableName: "usuario", // Especificar nombre de la tabla
+            modelName: "Cuenta",
+            tableName: "Cuenta", // Especificar nombre de la tabla
             timestamps: true, // Agrega createdAt y updatedAt
         }
     );
 
-    return Usuario;
+    return Cuenta;
 };
