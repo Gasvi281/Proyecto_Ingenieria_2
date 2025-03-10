@@ -5,7 +5,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const bodyParser = require("body-parser")
-const usuarioRoutes = require("./routes/usuarioRoutes");
+const CuentaRoutes = require("./routes/CuentaRoutes");
 
 const app = express();
 
