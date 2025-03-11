@@ -1,0 +1,13 @@
+.carousel-control-prev-icon {
+    position: absolute;
+    bottom: 150px;
+    left: 20px;
+    background-color: brown;
+}
+
+.carousel-control-next-icon {
+    position: absolute;
+    bottom: 150px;
+    right: 20px;
+    background-color: brown;
+}
