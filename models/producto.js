@@ -2,64 +2,53 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    class Cuenta extends Model {
-        static associate(models) {//Definimos relaciones
-            Cuenta.belongsToMany(models.Producto,{
+    class Producto extends Model {
+        static associate(models) {//Definir asociaciones
+            Producto.belongsToMany(models.Cuenta, {
                 through: "CuentaPreferencias",
                 as: "preferencias",
-                foreignKey: "cuentaId",
+                foreignKey: "productoId",
             });
-            Cuenta.belongsToMany(models.Producto,{
+            Producto.belongsToMany(models.Cuenta, {
                 through: "CuentaImpedimentos",
                 as: "impedimentos",
-                foreignKey: "cuentaId",
+                foreignKey: "productoId",
             });
         }
     }
 
-    Cuenta.init(
+    Producto.init(
         {
-        
             id:{
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4, // Genera un UUID automáticamente
                 allowNull: false,
                 primaryKey: true, // Define 'id' como clave primaria
             },
-            nombreUsuario: {
+            nombreProducto: {
                 type: DataTypes.STRING,
                 unique: true,
                 allowNull: false,
             },
-            email: {
+            categoria: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
             },
-            nombre: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            // fotoPerfil: {
-
-            //     //Como se llena esto?
-            // },
             estado: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 defaultValue: "Activo"
 
             },
-
-
         },
         {
             sequelize,
-            modelName: "Cuenta",
-            tableName: "Cuentas", // Especificar nombre de la tabla
+            modelName: "Producto",
+            tableName: "Producto", // Especificar nombre de la tabla
             timestamps: true, // Agrega createdAt y updatedAt
         }
     );
 
-    return Cuenta;
+    return Producto;
 };
