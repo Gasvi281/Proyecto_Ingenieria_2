@@ -4,16 +4,10 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     class Cuenta extends Model {
         static associate(models) {//Definimos relaciones
-            Cuenta.belongsToMany(models.Producto,{
-                through: "CuentaPreferencias",
-                as: "preferencias",
-                foreignKey: "cuentaId",
-            });
-            Cuenta.belongsToMany(models.Producto,{
-                through: "CuentaImpedimentos",
-                as: "impedimentos",
-                foreignKey: "cuentaId",
-            });
+            Cuenta.hasMany(models.CuentaPreferencias,{foreignKey: "cuentaId", as: "preferencias"}
+            );
+            Cuenta.hasmNay(models.CuentaImpedimientos,{ foreignKey: "cuentaId", as: "impedimentos"}
+            );
         }
     }
 
