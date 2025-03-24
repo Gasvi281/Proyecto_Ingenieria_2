@@ -3,12 +3,17 @@ const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
     class Cuenta extends Model {
-        static associate(models) {
-            // Definir asociaciones aquí si es necesario
+
+        static associate(models) {//Definimos relaciones
+            Cuenta.hasMany(models.CuentaPreferencias,{foreignKey: "cuentaId", as: "preferencias"}
+            );
+            Cuenta.hasMany(models.CuentaImpedimientos,{ foreignKey: "cuentaId", as: "impedimentos"}
+            );
+
         }
     }
 
-    cuenta.init(
+    Cuenta.init(
         {
         
             id:{
