@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
         static associate(models) {//Definimos relaciones
             Cuenta.hasMany(models.CuentaPreferencias,{foreignKey: "cuentaId", as: "preferencias"}
             );
-            Cuenta.hasmNay(models.CuentaImpedimientos,{ foreignKey: "cuentaId", as: "impedimentos"}
+            Cuenta.hasMany(models.CuentaImpedimientos,{ foreignKey: "cuentaId", as: "impedimentos"}
             );
         }
     }

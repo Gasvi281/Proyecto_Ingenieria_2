@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
         static associate(models) {//Definir asociaciones
             Producto.hasMany(models.CuentaPreferencias,{foreignKey: "productoId", as: "preferencias"}
             );
-            Producto.hasmNay(models.CuentaImpedimientos,{ foreignKey: "productoId", as: "impedimentos"}
+            Producto.hasMany(models.CuentaImpedimientos,{ foreignKey: "productoId", as: "impedimentos"}
             );
         }
     }
