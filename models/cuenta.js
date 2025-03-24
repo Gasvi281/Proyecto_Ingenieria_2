@@ -3,21 +3,12 @@ const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
     class Cuenta extends Model {
-        static associate(models) {//Definimos relaciones
-            Cuenta.belongsToMany(models.Producto,{
-                through: "CuentaPreferencias",
-                as: "preferencias",
-                foreignKey: "cuentaId",
-            });
-            Cuenta.belongsToMany(models.Producto,{
-                through: "CuentaImpedimentos",
-                as: "impedimentos",
-                foreignKey: "cuentaId",
-            });
+        static associate(models) {
+            // Definir asociaciones aquí si es necesario
         }
     }
 
-    Cuenta.init(
+    cuenta.init(
         {
         
             id:{
@@ -40,10 +31,18 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            // fotoPerfil: {
+            fotoPerfil: {
 
-            //     //Como se llena esto?
-            // },
+                //Como se llena esto?
+            },
+            preferencias: {
+                type: DataTypes.STRING, //Foreign key?
+                allowNull: false
+            },
+            impedimentos: {
+                //Foreign key
+
+            },
             estado: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -56,7 +55,7 @@ module.exports = (sequelize) => {
         {
             sequelize,
             modelName: "Cuenta",
-            tableName: "Cuentas", // Especificar nombre de la tabla
+            tableName: "Cuenta", // Especificar nombre de la tabla
             timestamps: true, // Agrega createdAt y updatedAt
         }
     );
