@@ -3,7 +3,7 @@ const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
     class IngredientesReceta extends Model {
-        static associate(models) {
+        static associate(models, DataTypes) {
             IngredientesReceta.belongsTo(models.Receta, { foreignKey: "recetaId", as: "receta" });
             IngredientesReceta.belongsTo(models.Producto, {foreignKey:"productoId", as:"producto"})
         }
@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: "RESTRICT",
             },
             productoId: {
+                type: DataTypes.UUID,
                 allowNull: false,
                 references:{
                     model:"producto",

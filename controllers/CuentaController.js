@@ -191,4 +191,9 @@ const desactivarCuenta = async (req, res) => {
 };
 
 
-module.exports = { getCuentaById, addCuenta, updateCuenta, desactivarCuenta, agregarPreferencias, eliminarPreferencias };
+module.exports = { getCuentaById, 
+    addCuenta, 
+    updateCuenta, 
+    desactivarCuenta, 
+    agregarPreferencias, 
+    eliminarPreferencias };
