@@ -3,14 +3,10 @@ const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
     class Recetas extends Model {
-        // static associate(models) {
-        //     this.belongsToMany(models.Producto, {
-        //         through: 'RecetaProducto',
-        //         as: 'productos',
-        //         foreignKey: 'recetaId',
-        //         otherKey: 'productoId',
-        //     });
-        // }
+        
+        static associate(models) {
+            Recetas.hasMany(models.IngredientesReceta, { foreignKey: "recetaId", as: "ingredientes" })
+        }
     }
 
     Recetas.init(

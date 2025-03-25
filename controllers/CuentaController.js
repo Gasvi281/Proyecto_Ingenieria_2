@@ -46,14 +46,14 @@ const addCuenta = async (req, res) => {
             // fotoPerfil
         })
 
-        const preferencias=[]
-        const impedimentos=[]
+        const preferencias = []
+        const impedimentos = []
 
         //Preferencias
-        for(const item of ProductosP){
+        for (const item of ProductosP) {
             const Producto = await producto.findByPk(item.id)
-            if(!Producto){
-                return res.status(404).json({error: "Producto no encontrado"});
+            if (!Producto) {
+                return res.status(404).json({ error: "Producto no encontrado" });
             }
 
             const preferencia = await CuentaPreferencias.create({
@@ -65,10 +65,10 @@ const addCuenta = async (req, res) => {
         }
 
         //Impedimentos
-        for(const item of ProductosI){
+        for (const item of ProductosI) {
             const Producto = await producto.findByPk(item.id)
-            if(!Producto){
-                return res.status(404).json({error: "Producto no encontrado"});
+            if (!Producto) {
+                return res.status(404).json({ error: "Producto no encontrado" });
             }
 
             const impedimento = await CuentaImpedimientos.create({

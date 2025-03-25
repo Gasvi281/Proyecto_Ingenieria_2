@@ -9,6 +9,7 @@ module.exports = (sequelize) => {
             );
             Cuenta.hasMany(models.CuentaImpedimientos,{ foreignKey: "cuentaId", as: "impedimentos"}
             );
+            Cuenta.hasMany(models.comentarios, {foreignKey: "cuentaId", as:"comentarios"})
 
         }
     }
@@ -39,14 +40,6 @@ module.exports = (sequelize) => {
             fotoPerfil: {
 
                 //Como se llena esto?
-            },
-            preferencias: {
-                type: DataTypes.STRING, //Foreign key?
-                allowNull: false
-            },
-            impedimentos: {
-                //Foreign key
-
             },
             estado: {
                 type: DataTypes.STRING,
