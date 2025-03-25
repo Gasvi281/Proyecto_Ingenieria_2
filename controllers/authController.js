@@ -6,13 +6,13 @@ const login = async(req, res)=>{
     try {
         const { nombreUsuario, password } = req.body;
 
-        const cuenta = Cuenta.findOne({where: {nombreUsuario}});
+        const cuenta = await Cuenta.findOne({where: {nombreUsuario}});
 
         if(!cuenta){
             return res.status(404).json({error: "Usuario no encontrado"});
         }
 
-        const isCorrectPassword = Cuenta.validarContraseña(password); 
+        const isCorrectPassword = cuenta.validarPassword(password); 
         if(!isCorrectPassword){
             res.status(401).json({error: "contraseña incorrecta"});
         }
