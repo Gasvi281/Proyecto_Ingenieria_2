@@ -1,4 +1,6 @@
 const { Cuenta } = require("../models");
+
+const bcrypt = require("bcryptjs");
 const CuentaImpedimientos = require("../models/CuentaImpedimientos");
 const CuentaPreferencias = require("../models/CuentaPreferencias");
 
@@ -18,8 +20,9 @@ const getCuentaById = async (req, res) => {
             }]
         });
 
-        if (!cuenta) {
-            res.status(404).json({ error: "uPS" });
+        if(!cuenta){
+        res.status(404).json({error: "Cuenta no encontrada"});
+
         }
 
         res.status(200).json(cuenta);
@@ -34,15 +37,16 @@ const addCuenta = async (req, res) => {
         const { nombreUsuario,
             email,
             nombre,
+            password,
             ProductosP,
             ProductosI,
             // fotoPerfil
-        } = req.body;
+        } = req.body;        
 
-        const cuenta = await Cuenta.create({
-            nombreUsuario,
-            email,
-            nombre,
+        const cuenta= await Cuenta.create({nombreUsuario, 
+            email, 
+            nombre, 
+            password,
             // fotoPerfil
         })
 
@@ -63,7 +67,7 @@ const addCuenta = async (req, res) => {
 
             preferencias.push(preferencia)
         }
-
+      
         //Impedimentos
         for(const item of ProductosI){
             const Producto = await producto.findByPk(item.id)
@@ -89,11 +93,12 @@ const addCuenta = async (req, res) => {
 
 const updateCuenta = async (req, res) => {
     try {
-        const { id } = req.params;
-        const {
-            nombreUsuario,
-            email,
-            nombre,
+        const{id}=req.params;
+        const{
+            nombreUsuario, 
+            email, 
+            nombre, 
+            password,
             // fotoPerfil
         } = req.body;
         const cuenta = await Usuario.findByPk(id);
@@ -101,9 +106,10 @@ const updateCuenta = async (req, res) => {
         if (!cuenta) {
             return res.status(404).json({ message: "usuario no encontrado" });
         }
-        if (nombreUsuario) cuenta.nombreUsuario = nombreUsuario;
-        if (nombre) cuenta.nombre = nombre;
-        if (email) cuenta.email = email;
+        if(nombreUsuario) cuenta.nombreUsuario=nombreUsuario;
+        if(nombre) cuenta.nombre=nombre;
+        if(email) cuenta.email=email;
+        if(password) cuenta.password=password;
         // if (fotoPerfil) cuenta.fotoPerfil=fotoPerfil;
 
         await cuenta.save();
