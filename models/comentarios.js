@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 references: {
                     model: "cuenta",
-                    key: "id",
+                    key: "nombreUsuario",
                 },
             },
             fecha: {
@@ -33,6 +33,11 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 defaultValue: DataTypes.NOW
             },
+            estado: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "Activo"
+            }
         },
         {
             sequelize,
