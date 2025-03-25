@@ -6,8 +6,8 @@ const getCuentaById = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const cuenta = await Cuenta.findByPk({
-            id,
+        const cuenta = await Cuenta.findByPk(
+            id, {
             include: [{
                 model: CuentaImpedimientos, as: "CuentaImpedimientos",
                 include: [{ model: Producto, as: "Producto" }]
@@ -27,6 +27,59 @@ const getCuentaById = async (req, res) => {
         return res.status(500).json({ error: error.message })
     }
 
+}
+
+const agregarPreferencias = async (req, res) => {
+    try {
+        const { usuarioId } = req.params
+        const { productoId } = req.body
+        const cuenta = await Cuenta.findByPk(usuarioId)
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" })
+        }
+
+        const existe = await CuentaPreferencias.findOne({ where: { usuarioId, productoId } })
+
+        if (existe) {
+            return res.status(400).json({ error: "Producto ya en preferencias" })
+        }
+
+        const nuevaPreferencia = await CuentaPreferencias.create({
+            cuentaId: usuarioId,
+            productoId: productoId,
+        })
+
+        return res.status(201).json(nuevaPreferencia)
+
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
+const eliminarPreferencias = async (res, req) => {
+    try {
+        const { usuarioId } = req.params
+        const { productoId } = req.body
+        const cuenta = await Cuenta.findByPk(usuarioId)
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" })
+        }
+
+        const existe = await CuentaPreferencias.findOne({ where: { usuarioId, productoId } })
+
+        if (!existe) {
+            return res.status(400).json({ error: "Producto no encontrado" })
+        }
+
+        existe.estado = "Inactivo";
+        await existe.save();
+
+        return res.status(200).json({ message: "Preferencia eliminada correctamente" });
+    } catch (error) {
+        return res.status(500).json({error: error.message})
+    }
 }
 
 const addCuenta = async (req, res) => {
@@ -86,7 +139,6 @@ const addCuenta = async (req, res) => {
     }
 }
 
-
 const updateCuenta = async (req, res) => {
     try {
         const { id } = req.params;
@@ -139,4 +191,4 @@ const desactivarCuenta = async (req, res) => {
 };
 
 
-module.exports = { getCuentaById, addCuenta, updateCuenta, desactivarCuenta };
+module.exports = { getCuentaById, addCuenta, updateCuenta, desactivarCuenta, agregarPreferencias, eliminarPreferencias };

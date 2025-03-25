@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
                     key: "id",
                 },
                 onDelete: "RESTRICT",
+            },
+            estado: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "Activo"
             }
         },
         {
