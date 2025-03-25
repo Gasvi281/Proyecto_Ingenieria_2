@@ -1,12 +1,14 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class Producto extends Model {
         static associate(models) {//Definir asociaciones
             Producto.hasMany(models.CuentaPreferencias,{foreignKey: "productoId", as: "preferencias"}
             );
             Producto.hasMany(models.CuentaImpedimientos,{ foreignKey: "productoId", as: "impedimentos"}
+            );
+            Producto.hasMany(models.ProductosLista, { foreignKey: "productoId", as: "elementosLista"}
             );
         }
     }

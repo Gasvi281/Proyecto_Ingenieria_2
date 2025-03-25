@@ -1,11 +1,10 @@
 'use strict';
-const sequelize = require("sequelize");
 const { Model, DataTypes } = require("sequelize");
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class IngredientesReceta extends Model {
         static associate(models) {
-            IngredientesReceta.belongsTo(models.Recetas, { foreignKey: "recetaId", as: "receta" });
+            IngredientesReceta.belongsTo(models.Receta, { foreignKey: "recetaId", as: "receta" });
         }
     }
 
@@ -18,6 +17,7 @@ module.exports = (sequelize) => {
                 primaryKey: true,
             },
             recetaId: {
+                type: DataTypes.UUID,
                 allowNull: false,
                 references: {
                     model: "recetas",
@@ -29,8 +29,9 @@ module.exports = (sequelize) => {
         {
             sequelize,
             modelName: "IngredientesReceta",
-            tableName: "productos_lista",
+            tableName: "ingredientes_receta",
             timestamps: true,
         }
     )
+    return IngredientesReceta;
 }

@@ -1,7 +1,7 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class Cuenta extends Model {
 
         static associate(models) {//Definimos relaciones
@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
             );
             Cuenta.hasMany(models.CuentaImpedimientos,{ foreignKey: "cuentaId", as: "impedimentos"}
             );
-            Cuenta.hasMany(models.comentarios, {foreignKey: "cuentaId", as:"comentarios"})
+            Cuenta.hasMany(models.Comentario, {foreignKey: "cuentaId", as:"comentarios"})
 
         }
     }
@@ -37,10 +37,10 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            fotoPerfil: {
+            // fotoPerfil: {
 
-                //Como se llena esto?
-            },
+            //     //Como se llena esto?
+            // },
             estado: {
                 type: DataTypes.STRING,
                 allowNull: false,

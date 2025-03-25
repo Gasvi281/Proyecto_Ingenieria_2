@@ -1,4 +1,4 @@
-const { Cuenta } = require("../models");
+const { Cuenta, Producto } = require("../models");
 const CuentaImpedimientos = require("../models/CuentaImpedimientos");
 const CuentaPreferencias = require("../models/CuentaPreferencias");
 
@@ -51,8 +51,8 @@ const addCuenta = async (req, res) => {
 
         //Preferencias
         for (const item of ProductosP) {
-            const Producto = await producto.findByPk(item.id)
-            if (!Producto) {
+            const producto = await Producto.findByPk(item.id)
+            if (!producto) {
                 return res.status(404).json({ error: "Producto no encontrado" });
             }
 
@@ -66,8 +66,8 @@ const addCuenta = async (req, res) => {
 
         //Impedimentos
         for (const item of ProductosI) {
-            const Producto = await producto.findByPk(item.id)
-            if (!Producto) {
+            const producto = await Producto.findByPk(item.id)
+            if (!producto) {
                 return res.status(404).json({ error: "Producto no encontrado" });
             }
 
