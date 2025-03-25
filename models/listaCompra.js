@@ -1,7 +1,7 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class ListaCompra extends Model {
          static associate(models) {
             ListaCompra.hasMany(models.ProductosLista, {foreignKey:"listaId", as:"elementosLista"})
@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 primaryKey: true,
             },
-            cuenta: {
+            cuenta_id: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },

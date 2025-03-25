@@ -1,7 +1,7 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class Comentario extends Model {
         static associate(models) {
             Comentario.belongsTo(models.Cuenta, {foreignKey:"cuentaId", as:"cuenta"})

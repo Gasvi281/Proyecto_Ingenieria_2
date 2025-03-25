@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser")
 const CuentaRoutes = require("./routes/CuentaRoutes");
 const ProductoRoutes = require("./routes/ProductoRoutes");
+const ListaCompraRoutes = require("./routes/ListaCompraRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use("/cuenta", CuentaRoutes)
 app.use("/producto", ProductoRoutes)
+app.use("/lista", ListaCompraRoutes)
 
 const PORT = process.env.PORT || 3000;
 
