@@ -30,12 +30,6 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            ListaProductos: {
-                // type: DataTypes.VIRTUAL,
-                // get() {
-                //     return this.getProductos();
-                // }
-            }
         },
         {
             sequelize,

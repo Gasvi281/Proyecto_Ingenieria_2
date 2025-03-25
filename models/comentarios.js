@@ -24,8 +24,8 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
                 references: {
-                    model: 'Cuentas',
-                    key: 'nombreUsuario',
+                    model: "cuenta",
+                    key: "id",
                 },
             },
             fecha: {

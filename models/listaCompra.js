@@ -5,6 +5,7 @@ module.exports = (sequelize) => {
     class ListaCompra extends Model {
          static associate(models) {
             ListaCompra.hasMany(models.ProductosLista, {foreignKey:"listaId", as:"elementosLista"})
+            ListaCompra.belongsTo(models.Cuenta, {foreignKey:"cuentaId", as:"lista"})
          }
     }
 
@@ -16,11 +17,9 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 primaryKey: true,
             },
-            ListaProductos: {
-                // type: DataTypes.VIRTUAL,
-                // get() {
-                //     return this.getProductos();
-                // }
+            cuenta: {
+                type: DataTypes.STRING,
+                allowNull: false,
             },
             fecha: {
                 type: DataTypes.DATE,
