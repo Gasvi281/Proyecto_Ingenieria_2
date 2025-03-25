@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     class IngredientesReceta extends Model {
         static associate(models) {
             IngredientesReceta.belongsTo(models.Recetas, { foreignKey: "recetaId", as: "receta" });
+            IngredientesReceta.belongsTo(models.Producto, {foreignKey:"productoId", as:"producto"})
         }
     }
 
@@ -25,6 +26,14 @@ module.exports = (sequelize) => {
                 },
                 onDelete: "RESTRICT",
             },
+            productoId: {
+                allowNull: false,
+                references:{
+                    model:"producto",
+                    key:"id",
+                },
+                onDelete: "RESTRICT",
+            }
         },
         {
             sequelize,

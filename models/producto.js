@@ -8,6 +8,7 @@ module.exports = (sequelize) => {
             );
             Producto.hasMany(models.CuentaImpedimientos,{ foreignKey: "productoId", as: "impedimentos"}
             );
+            Producto.hasMany(models.Recetas,{foreignKey:"productoId", as: "recetas"})
         }
     }
 
