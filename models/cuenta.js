@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             Cuenta.hasMany(models.Comentario, {foreignKey: "cuentaId", as:"comentarios"})
 
         }
-
-        async validarPassword(password){
-            return await bcrypt.compare(password, this.password);
-        }
     }
 
     Cuenta.init(
