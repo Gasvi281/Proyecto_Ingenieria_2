@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const CuentaController = require("../controllers/CuentaController");
+const authService = require("../services/authService");
 
-router.get("/:id", CuentaController.getCuentaById); //id?
+router.get("/:id", authService, CuentaController.getCuentaById); //id?
 router.post("/CreateAccount", CuentaController.addCuenta);
 
-router.put("/:id", CuentaController.updateCuenta); //id?
-router.put("/cambiarEstado/:id", CuentaController.desactivarCuenta);
+router.put("/:id", authService, CuentaController.updateCuenta); //id?
+router.put("/cambiarEstado/:id", authService, CuentaController.desactivarCuenta);
 
 router.post("/:id/pref", CuentaController.agregarPreferencia);
 router.put("/:id/pref", CuentaController.eliminarPreferencia);

@@ -1,5 +1,6 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
+const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
     class Cuenta extends Model {
@@ -11,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
             );
             Cuenta.hasMany(models.Comentario, {foreignKey: "cuentaId", as:"comentarios"})
 
+        }
+
+        async validarPassword(password){
+            return await bcrypt.compare(password, this.password);
         }
     }
 
@@ -47,6 +52,10 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: "Activo"
 
             },
+            password:{
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
 
 
         },
@@ -55,6 +64,13 @@ module.exports = (sequelize, DataTypes) => {
             modelName: "Cuenta",
             tableName: "Cuenta", // Especificar nombre de la tabla
             timestamps: true, // Agrega createdAt y updatedAt
+
+            hooks: {
+                beforeCreate: async (cuenta)=>{
+                    const salt = await bcrypt.genSalt(10);
+                    cuenta.password = await bcrypt.hash(cuenta.password, salt);
+                }
+            }
         }
     );
 

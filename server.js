@@ -10,6 +10,7 @@ const ProductoRoutes = require("./routes/ProductoRoutes");
 const ListaCompraRoutes = require("./routes/ListaCompraRoutes");
 const ComentarioRoutes = require("./routes/ComentariosRoutes");
 const RecetaRoutes = require("./routes/RecetaRoutes");
+const AuthRoutes = require("./routes/AuthRoutes");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/producto", ProductoRoutes)
 app.use("/lista", ListaCompraRoutes)
 app.use("/comentario", ComentarioRoutes);
 app.use("/receta", RecetaRoutes);
+app.use("/auth", AuthRoutes);
 
 const PORT = process.env.PORT || 3000;
 
