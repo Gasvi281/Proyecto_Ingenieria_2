@@ -1,76 +1,75 @@
 const { json } = require("body-parser");
-const { Cuenta, Producto } = require("../models");
+const { Cuenta, Producto, CuentaImpedimientos, CuentaPreferencias } = require("../models");
 const bcrypt = require("bcryptjs");
-const CuentaImpedimientos = require("../models/CuentaImpedimientos");
-const CuentaPreferencias = require("../models/CuentaPreferencias");
 
 const getCuentaById = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const cuenta = await Cuenta.findByPk(
-            id, {
-            include: [{
-                model: CuentaImpedimientos, as: "CuentaImpedimientos",
-                include: [{ model: Producto, as: "Producto" }]
-            }],
-            include: [{
-                model: CuentaPreferencias, as: "CuentaPreferencias",
-                include: [{ model: Producto, as: "Producto" }]
-            }]
+        const cuenta = await Cuenta.findByPk(id, {
+            include: [
+                {
+                    model: CuentaImpedimientos,
+                    as: "impedimentos",
+                    include: [{ model: Producto, as: "producto" }]
+                },
+                {
+                    model: CuentaPreferencias,
+                    as: "preferencias",
+                    include: [{ model: Producto, as: "producto" }]
+                }
+            ]
         });
 
-        if(!cuenta){
-        res.status(404).json({error: "Cuenta no encontrada"});
-
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" });
         }
 
-        res.status(200).json(cuenta);
+        return res.status(200).json(cuenta);
     } catch (error) {
-        return res.status(500).json({ error: error.message })
+        return res.status(500).json({ error: error.message });
     }
-
-}
+};
 
 const agregarPreferencia = async (req, res) => {
     try {
-        const { usuarioId } = req.params
+        const { id } = req.params
         const { productoId } = req.body
-        const cuenta = await Cuenta.findByPk(usuarioId)
+        const cuenta = await Cuenta.findByPk(id)
 
         if (!cuenta) {
             return res.status(404).json({ error: "Cuenta no encontrada" })
         }
 
-        const existe = await CuentaPreferencias.findOne({ where: { usuarioId, productoId } })
+        const existe = await CuentaPreferencias.findOne({ where: { cuentaId: id, productoId } })
 
         if (existe) {
             return res.status(400).json({ error: "Producto ya en preferencias" })
         }
 
         const nuevaPreferencia = await CuentaPreferencias.create({
-            cuentaId: usuarioId,
+            cuentaId: id,
             productoId: productoId,
         })
 
         return res.status(201).json(nuevaPreferencia)
 
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        return res.status(500).json({ error: error.message })
     }
 }
 
-const eliminarPreferencia = async (res, req) => {
+const eliminarPreferencia = async (req, res) => {
     try {
-        const { usuarioId } = req.params
+        const { id } = req.params
         const { productoId } = req.body
-        const cuenta = await Cuenta.findByPk(usuarioId)
+        const cuenta = await Cuenta.findByPk(id)
 
         if (!cuenta) {
             return res.status(404).json({ error: "Cuenta no encontrada" })
         }
 
-        const existe = await CuentaPreferencias.findOne({ where: { usuarioId, productoId } })
+        const existe = await CuentaPreferencias.findOne({ where: { cuentaId: id, productoId } })
 
         if (!existe) {
             return res.status(400).json({ error: "Producto no encontrado" })
@@ -87,22 +86,22 @@ const eliminarPreferencia = async (res, req) => {
 
 const agregarImpedimento = async (req, res) => {
     try {
-        const { usuarioId } = req.params;
+        const { id } = req.params;
         const { productoId } = req.body;
-        const cuenta = await Cuenta.findByPk(usuarioId);
+        const cuenta = await Cuenta.findByPk(id);
 
         if (!cuenta) {
             return res.status(404).json({ error: "Cuenta no encontrada" });
         }
 
-        const existe = await CuentaImpedimientos.findOne({ where: { usuarioId, productoId } });
+        const existe = await CuentaImpedimientos.findOne({ where: { cuentaId: id, productoId } });
 
         if (existe) {
             return res.status(400).json({ error: "Producto ya en lista" });
         }
 
         const nuevoImpedimento = await CuentaImpedimientos.create({
-            cuentaId: usuarioId,
+            cuentaId: id,
             productoId: productoId,
         })
 
@@ -114,15 +113,15 @@ const agregarImpedimento = async (req, res) => {
 
 const eliminarImpedimento = async (req, res) => {
     try {
-        const { usuarioId } = req.params;
+        const { id } = req.params;
         const { productoId } = req.body;
-        const cuenta = await Cuenta.findByPk(usuarioId);
+        const cuenta = await Cuenta.findByPk(id);
 
         if (!cuenta) {
             return res.status(404).json({ error: "Cuenta no encontrada" });
         }
 
-        const existe = CuentaImpedimientos.findOne({ where: { usuarioId, productoId } });
+        const existe = CuentaImpedimientos.findOne({ where: { cuentaId: id, productoId } });
 
         if (!existe) {
             return res.status(400).json({ error: "Producto no en lista" });
@@ -157,7 +156,7 @@ const addCuenta = async (req, res) => {
 
         const preferencias = []
         const impedimentos = []
-
+ 
         //Preferencias
         for (const item of ProductosP) {
             const producto = await Producto.findByPk(item.id)
@@ -191,7 +190,7 @@ const addCuenta = async (req, res) => {
 
 
     } catch (error) {
-        return res.status(500).json({ error: error })
+        return res.status(500).json({ error: error.message })
     }
 }
 
@@ -221,7 +220,7 @@ const updateCuenta = async (req, res) => {
 
 
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        return res.status(500).json({ error: error.message })
     }
 }
 
@@ -244,7 +243,7 @@ const desactivarCuenta = async (req, res) => {
         return res.status(200).json({ message: "Usuario desactivado correctamente" });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 

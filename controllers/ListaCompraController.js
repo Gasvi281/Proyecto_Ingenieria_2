@@ -4,6 +4,10 @@ const addListaCompra = async (req, res) =>{
     try {
         const {cuenta_id, productosL} = req.body;
 
+        if (!productosL || productosL.length === 0) {
+            return res.status(400).json({ error: "Debes incluir al menos un producto" });
+        }        
+
         const listaCompra = await ListaCompra.create({cuenta_id});
 
         const productosLista = [];
@@ -11,7 +15,7 @@ const addListaCompra = async (req, res) =>{
         for(const i of productosL){
             const producto = await Producto.findByPk(i.id);
             if(!producto){
-                res.status(404).json({error: "Producto no encontrado"});
+                return res.status(404).json({error: "Producto no encontrado"});
             }
 
             const productoLista = await ProductosLista.create({
@@ -23,9 +27,9 @@ const addListaCompra = async (req, res) =>{
             productosLista.push(productoLista);
         }
 
-        res.status(201).json(listaCompra, productosLista);
+        return res.status(201).json({listaCompra, productosLista});
     } catch (error) {
-        res.status(500).json({error: error.message});
+        return res.status(500).json({error: error.message});
     }
 }
 

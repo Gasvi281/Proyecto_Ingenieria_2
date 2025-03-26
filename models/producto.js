@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Producto",
-            tableName: "Producto", // Especificar nombre de la tabla
+            tableName: "Productos", // Especificar nombre de la tabla
             timestamps: true, // Agrega createdAt y updatedAt
         }
     );

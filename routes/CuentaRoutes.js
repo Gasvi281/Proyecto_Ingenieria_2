@@ -9,10 +9,10 @@ router.post("/CreateAccount", CuentaController.addCuenta);
 router.put("/:id", authService, CuentaController.updateCuenta); //id?
 router.put("/cambiarEstado/:id", authService, CuentaController.desactivarCuenta);
 
-router.post("/:id/pref", CuentaController.agregarPreferencia);
-router.put("/:id/pref", CuentaController.eliminarPreferencia);
+router.post("/pref/:id", authService, CuentaController.agregarPreferencia);
+router.put("/pref/:id", authService, CuentaController.eliminarPreferencia);
 
-router.post("/:id/imp", CuentaController.agregarImpedimento);
-router.put("/:id/imp", CuentaController.eliminarImpedimento);
+router.post("/imp/:id", authService, CuentaController.agregarImpedimento);
+router.put("/imp/:id", authService, CuentaController.eliminarImpedimento);
 
 module.exports = router;

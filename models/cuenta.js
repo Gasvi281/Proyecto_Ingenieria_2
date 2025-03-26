@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             Cuenta.hasMany(models.CuentaImpedimientos,{ foreignKey: "cuentaId", as: "impedimentos"}
             );
             Cuenta.hasMany(models.Comentario, {foreignKey: "cuentaId", as:"comentarios"})
+            Cuenta.hasOne(models.listaCompra, {foreignKey: "cuentaId", as:"lista"})
 
         }
     }

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     class ListaCompra extends Model {
          static associate(models) {
             ListaCompra.hasMany(models.ProductosLista, {foreignKey:"listaId", as:"elementosLista"})
-            ListaCompra.belongsTo(models.Cuenta, {foreignKey:"cuentaId", as:"lista"})
+            ListaCompra.belongsTo(models.Cuenta)
          }
     }
 
@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
             cuenta_id: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                references:{
+                    model: "cuenta",
+                    key: "id",
+                }
             },
             fecha: {
                 type: DataTypes.DATE,
