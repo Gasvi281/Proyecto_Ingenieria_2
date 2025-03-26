@@ -13,15 +13,15 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            nombreUsuario: {
-                type: Sequelize.STRING,
+            cuentaId: {
+                type: Sequelize.UUID,
                 allowNull: false,
                 references: {
                     model: "Cuentas",
-                    key: "nombreUsuario",
+                    key: "id",
                 },
                 onUpdate: "CASCADE",
-                onDelete: "SET NULL",
+                onDelete: "RESTRICT",
             },
             fecha: {
                 type: Sequelize.DATE,
@@ -50,4 +50,3 @@ module.exports = {
         await queryInterface.dropTable("comentarios");
     },
 };
-

@@ -20,12 +20,12 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            nombreUsuario: {
-                type: DataTypes.STRING,
+            cuentaId: {
+                type: DataTypes.UUID,
                 allowNull: false,
                 references: {
-                    model: "cuenta",
-                    key: "nombreUsuario",
+                    model: "Cuenta",
+                    key: "id",
                 },
             },
             fecha: {

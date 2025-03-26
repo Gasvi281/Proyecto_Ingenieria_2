@@ -91,7 +91,7 @@ module.exports = {
                     key: "id",
                 },
                 onUpdate: "CASCADE",
-                onDelete: "CASCADE",
+                onDelete: "RESTRICT",
             },
             productoId: {
                 type: Sequelize.UUID,
@@ -101,7 +101,7 @@ module.exports = {
                     key: "id",
                 },
                 onUpdate: "CASCADE",
-                onDelete: "CASCADE",
+                onDelete: "RESTRICT",
             },
             createdAt: {
                 type: Sequelize.DATE,
@@ -131,7 +131,7 @@ module.exports = {
                     key: "id",
                 },
                 onUpdate: "CASCADE",
-                onDelete: "CASCADE",
+                onDelete: "RESTRICT",
             },
             productoId: {
                 type: Sequelize.UUID,
@@ -141,7 +141,7 @@ module.exports = {
                     key: "id",
                 },
                 onUpdate: "CASCADE",
-                onDelete: "CASCADE",
+                onDelete: "RESTRICT",
             },
             createdAt: {
                 type: Sequelize.DATE,
