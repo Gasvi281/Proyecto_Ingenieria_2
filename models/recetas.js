@@ -1,16 +1,12 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class Recetas extends Model {
-        // static associate(models) {
-        //     this.belongsToMany(models.Producto, {
-        //         through: 'RecetaProducto',
-        //         as: 'productos',
-        //         foreignKey: 'recetaId',
-        //         otherKey: 'productoId',
-        //     });
-        // }
+        
+        static associate(models) {
+            Recetas.hasMany(models.IngredientesReceta, { foreignKey: "recetaId", as: "ingredientes" })
+        }
     }
 
     Recetas.init(
@@ -34,12 +30,6 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            ListaProductos: {
-                // type: DataTypes.VIRTUAL,
-                // get() {
-                //     return this.getProductos();
-                // }
-            }
         },
         {
             sequelize,

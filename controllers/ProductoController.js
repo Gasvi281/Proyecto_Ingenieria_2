@@ -10,7 +10,18 @@ const getProductoById= async(req, res)=>{
     }
 
     res.status(200).json(producto);
+}
 
+const getProductoByNombre = async(req, res)=>{
+    const{nombreProducto} = req.params;
+
+    const producto = await Producto.findOne({where: {nombre}});
+
+    if(!producto){
+        res.status(404).json({error: "Producto no encontrado"});
+    }
+
+    res.status(200).json(producto);
 }
 
 const addProducto=async(req, res)=>{
@@ -30,4 +41,4 @@ const addProducto=async(req, res)=>{
     }
 }
 
-module.exports = {getProductoById, addProducto};
+module.exports = {getProductoById, getProductoByNombre, addProducto};

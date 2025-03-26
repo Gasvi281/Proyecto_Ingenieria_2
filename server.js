@@ -7,6 +7,9 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser")
 const CuentaRoutes = require("./routes/CuentaRoutes");
 const ProductoRoutes = require("./routes/ProductoRoutes");
+const ListaCompraRoutes = require("./routes/ListaCompraRoutes");
+const ComentarioRoutes = require("./routes/ComentariosRoutes");
+const RecetaRoutes = require("./routes/RecetaRoutes");
 const AuthRoutes = require("./routes/AuthRoutes");
 
 const app = express();
@@ -17,8 +20,11 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
-app.use("/cuenta", CuentaRoutes);
-app.use("/producto", ProductoRoutes);
+app.use("/cuenta", CuentaRoutes)
+app.use("/producto", ProductoRoutes)
+app.use("/lista", ListaCompraRoutes)
+app.use("/comentario", ComentarioRoutes);
+app.use("/receta", RecetaRoutes);
 app.use("/auth", AuthRoutes);
 
 const PORT = process.env.PORT || 3000;

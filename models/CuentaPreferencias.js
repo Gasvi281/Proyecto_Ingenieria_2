@@ -2,11 +2,11 @@
 const sequelize = require("sequelize");
 const { Model, DataTypes } = require("sequelize");
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class CuentaPreferencias extends Model {
         static associate(models) {
             CuentaPreferencias.belongsTo(models.Cuenta, { foreignKey: "cuentaId", as: "cuenta" });
-            CuentaPreferencias.belongsTo(models.Prodcuto, { foreignKey: "productoId", as: "producto" });
+            CuentaPreferencias.belongsTo(models.Producto, { foreignKey: "productoId", as: "producto" });
         }
     }
 
@@ -19,6 +19,7 @@ module.exports = (sequelize) => {
                 primaryKey: true,
             },
             cuentaId: {
+                type: DataTypes.UUID,
                 allowNull: false,
                 references: {
                     model: "cuenta",
@@ -27,13 +28,19 @@ module.exports = (sequelize) => {
                 onDelete: "RESTRICT",
             },
             productoId: {
+                type: DataTypes.UUID,
                 allowNull: false,
                 references: {
                     model: "producto",
                     key: "id",
                 },
                 onDelete: "RESTRICT",
-            }
+            },
+            estado: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "Activo"
+            },
         },
         {
             sequelize,
@@ -42,4 +49,5 @@ module.exports = (sequelize) => {
             timestamps: true,
         }
     )
+    return CuentaPreferencias;
 }

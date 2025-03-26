@@ -1,5 +1,5 @@
-const { Cuenta } = require("../models");
-
+const { json } = require("body-parser");
+const { Cuenta, Producto } = require("../models");
 const bcrypt = require("bcryptjs");
 const CuentaImpedimientos = require("../models/CuentaImpedimientos");
 const CuentaPreferencias = require("../models/CuentaPreferencias");
@@ -8,8 +8,8 @@ const getCuentaById = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const cuenta = await Cuenta.findByPk({
-            id,
+        const cuenta = await Cuenta.findByPk(
+            id, {
             include: [{
                 model: CuentaImpedimientos, as: "CuentaImpedimientos",
                 include: [{ model: Producto, as: "Producto" }]
@@ -32,6 +32,111 @@ const getCuentaById = async (req, res) => {
 
 }
 
+const agregarPreferencia = async (req, res) => {
+    try {
+        const { usuarioId } = req.params
+        const { productoId } = req.body
+        const cuenta = await Cuenta.findByPk(usuarioId)
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" })
+        }
+
+        const existe = await CuentaPreferencias.findOne({ where: { usuarioId, productoId } })
+
+        if (existe) {
+            return res.status(400).json({ error: "Producto ya en preferencias" })
+        }
+
+        const nuevaPreferencia = await CuentaPreferencias.create({
+            cuentaId: usuarioId,
+            productoId: productoId,
+        })
+
+        return res.status(201).json(nuevaPreferencia)
+
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
+const eliminarPreferencia = async (res, req) => {
+    try {
+        const { usuarioId } = req.params
+        const { productoId } = req.body
+        const cuenta = await Cuenta.findByPk(usuarioId)
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" })
+        }
+
+        const existe = await CuentaPreferencias.findOne({ where: { usuarioId, productoId } })
+
+        if (!existe) {
+            return res.status(400).json({ error: "Producto no encontrado" })
+        }
+
+        existe.estado = "Inactivo";
+        await existe.save();
+
+        return res.status(200).json({ message: "Preferencia eliminada correctamente" });
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }
+}
+
+const agregarImpedimento = async (req, res) => {
+    try {
+        const { usuarioId } = req.params;
+        const { productoId } = req.body;
+        const cuenta = await Cuenta.findByPk(usuarioId);
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" });
+        }
+
+        const existe = await CuentaImpedimientos.findOne({ where: { usuarioId, productoId } });
+
+        if (existe) {
+            return res.status(400).json({ error: "Producto ya en lista" });
+        }
+
+        const nuevoImpedimento = await CuentaImpedimientos.create({
+            cuentaId: usuarioId,
+            productoId: productoId,
+        })
+
+        return res.status(201).json(nuevoImpedimento);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+const eliminarImpedimento = async (req, res) => {
+    try {
+        const { usuarioId } = req.params;
+        const { productoId } = req.body;
+        const cuenta = await Cuenta.findByPk(usuarioId);
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" });
+        }
+
+        const existe = CuentaImpedimientos.findOne({ where: { usuarioId, productoId } });
+
+        if (!existe) {
+            return res.status(400).json({ error: "Producto no en lista" });
+        }
+
+        existe.estado = "Inactivo";
+        await existe.save();
+
+        return res.status(200).json({message: "Impedimento eliminado correctamente"});
+    } catch (error) {
+        return res.status(500).json({error: error.message});
+    }
+}
+
 const addCuenta = async (req, res) => {
     try {
         const { nombreUsuario,
@@ -50,14 +155,14 @@ const addCuenta = async (req, res) => {
             // fotoPerfil
         })
 
-        const preferencias=[]
-        const impedimentos=[]
+        const preferencias = []
+        const impedimentos = []
 
         //Preferencias
-        for(const item of ProductosP){
-            const Producto = await producto.findByPk(item.id)
-            if(!Producto){
-                return res.status(404).json({error: "Producto no encontrado"});
+        for (const item of ProductosP) {
+            const producto = await Producto.findByPk(item.id)
+            if (!producto) {
+                return res.status(404).json({ error: "Producto no encontrado" });
             }
 
             const preferencia = await CuentaPreferencias.create({
@@ -69,10 +174,10 @@ const addCuenta = async (req, res) => {
         }
       
         //Impedimentos
-        for(const item of ProductosI){
-            const Producto = await producto.findByPk(item.id)
-            if(!Producto){
-                return res.status(404).json({error: "Producto no encontrado"});
+        for (const item of ProductosI) {
+            const producto = await Producto.findByPk(item.id)
+            if (!producto) {
+                return res.status(404).json({ error: "Producto no encontrado" });
             }
 
             const impedimento = await CuentaImpedimientos.create({
@@ -89,7 +194,6 @@ const addCuenta = async (req, res) => {
         return res.status(500).json({ error: error.message })
     }
 }
-
 
 const updateCuenta = async (req, res) => {
     try {
@@ -145,4 +249,13 @@ const desactivarCuenta = async (req, res) => {
 };
 
 
-module.exports = { getCuentaById, addCuenta, updateCuenta, desactivarCuenta };
+module.exports = {
+    getCuentaById,
+    addCuenta,
+    updateCuenta,
+    desactivarCuenta,
+    agregarPreferencia,
+    eliminarPreferencia,
+    agregarImpedimento,
+    eliminarImpedimento
+};

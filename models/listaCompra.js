@@ -1,16 +1,12 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class ListaCompra extends Model {
-        // static associate(models) {
-        //     this.belongsToMany(models.Producto, {
-        //         through: 'ListaCompraProducto',
-        //         as: 'productos',
-        //         foreignKey: 'listaCompraId',
-        //         otherKey: 'productoId',
-        //     }); 
-        // }
+         static associate(models) {
+            ListaCompra.hasMany(models.ProductosLista, {foreignKey:"listaId", as:"elementosLista"})
+            ListaCompra.belongsTo(models.Cuenta, {foreignKey:"cuentaId", as:"lista"})
+         }
     }
 
     ListaCompra.init(
@@ -21,11 +17,9 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 primaryKey: true,
             },
-            ListaProductos: {
-                // type: DataTypes.VIRTUAL,
-                // get() {
-                //     return this.getProductos();
-                // }
+            cuenta_id: {
+                type: DataTypes.STRING,
+                allowNull: false,
             },
             fecha: {
                 type: DataTypes.DATE,

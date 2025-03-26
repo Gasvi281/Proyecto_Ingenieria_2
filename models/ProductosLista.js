@@ -3,14 +3,14 @@ const sequelize = require("sequelize");
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-    class CuentaImpedimientos extends Model {
+    class ProductosLista extends Model {
         static associate(models) {
-            CuentaImpedimientos.belongsTo(models.Cuenta, { foreignKey: "cuentaId", as: "cuenta" });
-            CuentaImpedimientos.belongsTo(models.Producto, { foreignKey: "productoId", as: "producto" });
+            ProductosLista.belongsTo(models.ListaCompra, { foreignKey: "listaId", as: "lista" });
+            ProductosLista.belongsTo(models.Producto, { foreignKey: "productoId", as: "elementosLista"});
         }
     }
 
-    CuentaImpedimientos.init(
+    ProductosLista.init(
         {
             id: {
                 type: DataTypes.UUID,
@@ -18,11 +18,11 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 primaryKey: true,
             },
-            cuentaId: {
+            listaId: {
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
-                    model: "cuenta",
+                    model: "listaCompra",
                     key: "id",
                 },
                 onDelete: "RESTRICT",
@@ -36,18 +36,17 @@ module.exports = (sequelize, DataTypes) => {
                 },
                 onDelete: "RESTRICT",
             },
-            estado: {
-                type: DataTypes.STRING,
+            cantidad: {
+                type: DataTypes.INTEGER,
                 allowNull: false,
-                defaultValue: "Activo"
             }
         },
         {
             sequelize,
-            modelName: "CuentaImpedimientos",
-            tableName: "cuenta_impedimientos",
+            modelName: "ProductosLista",
+            tableName: "productos_lista",
             timestamps: true,
         }
     )
-    return CuentaImpedimientos;
+    return ProductosLista;
 }

@@ -1,14 +1,10 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     class Comentario extends Model {
         static associate(models) {
-            this.belongsTo(models.Cuenta, {
-                foreignKey: 'nombreUsuario',
-                targetKey: 'nombreUsuario',
-                as: 'cuenta',
-            });
+            Comentario.belongsTo(models.Cuenta, {foreignKey:"cuentaId", as:"cuenta"})
         }
     }
 
@@ -28,8 +24,8 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
                 references: {
-                    model: 'Cuentas',
-                    key: 'nombreUsuario',
+                    model: "cuenta",
+                    key: "nombreUsuario",
                 },
             },
             fecha: {
@@ -37,6 +33,11 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 defaultValue: DataTypes.NOW
             },
+            estado: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "Activo"
+            }
         },
         {
             sequelize,
