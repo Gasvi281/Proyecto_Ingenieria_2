@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const { Cuenta, Producto } = require("../models");
 const CuentaImpedimientos = require("../models/CuentaImpedimientos");
 const CuentaPreferencias = require("../models/CuentaPreferencias");
@@ -29,7 +30,7 @@ const getCuentaById = async (req, res) => {
 
 }
 
-const agregarPreferencias = async (req, res) => {
+const agregarPreferencia = async (req, res) => {
     try {
         const { usuarioId } = req.params
         const { productoId } = req.body
@@ -57,7 +58,7 @@ const agregarPreferencias = async (req, res) => {
     }
 }
 
-const eliminarPreferencias = async (res, req) => {
+const eliminarPreferencia = async (res, req) => {
     try {
         const { usuarioId } = req.params
         const { productoId } = req.body
@@ -78,7 +79,59 @@ const eliminarPreferencias = async (res, req) => {
 
         return res.status(200).json({ message: "Preferencia eliminada correctamente" });
     } catch (error) {
-        return res.status(500).json({error: error.message})
+        return res.status(500).json({ error: error.message })
+    }
+}
+
+const agregarImpedimento = async (req, res) => {
+    try {
+        const { usuarioId } = req.params;
+        const { productoId } = req.body;
+        const cuenta = await Cuenta.findByPk(usuarioId);
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" });
+        }
+
+        const existe = await CuentaImpedimientos.findOne({ where: { usuarioId, productoId } });
+
+        if (existe) {
+            return res.status(400).json({ error: "Producto ya en lista" });
+        }
+
+        const nuevoImpedimento = await CuentaImpedimientos.create({
+            cuentaId: usuarioId,
+            productoId: productoId,
+        })
+
+        return res.status(201).json(nuevoImpedimento);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+const eliminarImpedimento = async (req, res) => {
+    try {
+        const { usuarioId } = req.params;
+        const { productoId } = req.body;
+        const cuenta = await Cuenta.findByPk(usuarioId);
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" });
+        }
+
+        const existe = CuentaImpedimientos.findOne({ where: { usuarioId, productoId } });
+
+        if (!existe) {
+            return res.status(400).json({ error: "Producto no en lista" });
+        }
+
+        existe.estado = "Inactivo";
+        await existe.save();
+
+        return res.status(200).json({message: "Impedimento eliminado correctamente"});
+    } catch (error) {
+        return res.status(500).json({error: error.message});
     }
 }
 
@@ -191,9 +244,13 @@ const desactivarCuenta = async (req, res) => {
 };
 
 
-module.exports = { getCuentaById, 
-    addCuenta, 
-    updateCuenta, 
-    desactivarCuenta, 
-    agregarPreferencias, 
-    eliminarPreferencias };
+module.exports = {
+    getCuentaById,
+    addCuenta,
+    updateCuenta,
+    desactivarCuenta,
+    agregarPreferencia,
+    eliminarPreferencia,
+    agregarImpedimento,
+    eliminarImpedimento
+};
