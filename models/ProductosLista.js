@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     class ProductosLista extends Model {
         static associate(models) {
             ProductosLista.belongsTo(models.ListaCompra, { foreignKey: "listaId", as: "lista" });
-            ProductosLista.belongsTo(models.Producto, { foreignKey: "productoId", as: "elementosLista"});
+            ProductosLista.belongsTo(models.Producto, { foreignKey: "productoId", as: "producto"});
         }
     }
 
@@ -37,9 +37,15 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: "RESTRICT",
             },
             cantidad: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 allowNull: false,
-            }
+            },
+            estado: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: "Activo"
+
+            },
         },
         {
             sequelize,

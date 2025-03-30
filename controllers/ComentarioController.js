@@ -7,7 +7,7 @@ const getComentarioById = async (req, res) => {
         const comentario = await Comentario.findByPk(id);
 
         if (!comentario) {
-            res.status(404).json({ error: "uPS" });
+            return res.status(404).json({ error: "Comentario no encontrado" });
         }
 
         return res.status(200).json(comentario);

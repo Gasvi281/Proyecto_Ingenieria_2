@@ -17,6 +17,22 @@ const getCuentaById = async (req, res) => {
                     model: CuentaPreferencias,
                     as: "preferencias",
                     include: [{ model: Producto, as: "producto" }]
+                },
+                {
+                    model: ListaCompra,
+                    as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
+                    include: [
+                        {
+                            model: ProductosLista,
+                            as: "elementosLista",
+                            include: [
+                                {
+                                    model: Producto,
+                                    as: "producto" // Alias definido en ProductosLista.belongsTo(models.Producto)
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         });
@@ -30,6 +46,7 @@ const getCuentaById = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+
 
 const agregarPreferencia = async (req, res) => {
     try {

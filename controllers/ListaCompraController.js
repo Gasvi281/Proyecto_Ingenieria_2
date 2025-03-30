@@ -1,4 +1,5 @@
 const { ListaCompra, Producto, ProductosLista} = require("../models");
+const listaCompra = require("../models/listaCompra");
 
 const addListaCompra = async (req, res) =>{
     try {
@@ -46,13 +47,79 @@ const getListaById = async(req, res) =>{
         });
 
         if(!lista){
-            res.status(404).json({error: "Lista no encontrada"});
+            return res.status(404).json({error: "Lista no encontrada"});
         }
 
-        res.status(200).json(lista);
+        return res.status(200).json(lista);
     } catch (error) {
-        res.status(500).json({error: error.message});
+        return res.status(500).json({error: error.message});
     }
 }
 
-module.exports = {addListaCompra, getListaById};
+const agregarProducto = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { productoId, cantidad } = req.body
+        const cuenta = await Cuenta.findByPk(id)
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" })
+        }
+
+        const listaExiste = await ListaCompra.findOne({ where: { cuentaId: id} })
+        if (!listaExiste) {
+            return res.status(404).json({ error: "esta cuenta no ha creado una lista" })
+        }
+
+        const productoExiste = await ProductosLista.findOne({ where: { listaId: listaExiste.id, productoId: productoId}})
+
+        if(productoExiste){
+            return res.status(400).json({ error: "producto ya en lista"});
+        }
+
+        const nuevoProducto = await ProductosLista.create({
+            listaId: listaExiste.id,
+            productoId: productoId,
+            cantidad: cantidad,
+        });
+
+        return res.status(201).json(nuevoProducto);
+
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }
+}
+
+const eliminarProducto = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {productoId} = req.body;
+
+        const cuenta = await Cuenta.findByPk(id);
+
+        if(!cuenta){
+            return res.status(404).json({error: "Cuenta no encontrada"});
+        }
+
+        const listaExiste = await ListaCompra.findOne({where: {cuentaId: id}});
+
+        if(!listaExiste){
+            return res.status(404).json({error: "esta cuenta no ha creado una lista"});
+        }
+
+        const productoExiste = await ProductosLista.findOne({where: { listaId: listaExiste.id, productoId: productoId}});
+
+        if(!productoExiste){
+            return res.status(400).json({error: "No se puede eliminar un producto que no este en la lista"});
+        }
+
+        productoExiste.estado = "Inactivo";
+        await productoExiste.save();
+
+        return res.status(200).json({message: "Producto eliminado correctamente"});
+    } catch (error) {
+        return res.status(500).json({error: error.message});
+    }
+}
+
+module.exports = {addListaCompra, getListaById, agregarProducto, eliminarProducto};
