@@ -1,16 +1,16 @@
 const { Cuenta, Comentario } = require("../models");
 
-const getComentarioByUsername = async (req, res) => {
+const getComentarioById = async (req, res) => {
     try {
-        const { nombreUsuario } = req.params;
+        const { id } = req.params;
 
-        const comentario = await Comentario.findOne({where:{nombreUsuario}});
+        const comentario = await Comentario.findByPk(id);
 
         if (!comentario) {
-            res.status(404).json({ error: "uPS" });
+            return res.status(404).json({ error: "Comentario no encontrado" });
         }
 
-        res.status(200).json(comentario);
+        return res.status(200).json(comentario);
     } catch (error) {
         return res.status(500).json({ error: error.message })
     }
@@ -19,22 +19,25 @@ const getComentarioByUsername = async (req, res) => {
 
 const addComentario = async (req, res) => {
     try {
-        const { nombreUsuario,
-            email,
-            nombre,
+
+        const {id}=req.params
+
+        const {
             comentario
-            // fotoPerfil
         } = req.body;
 
-        const cuenta= await Cuenta.findOne({where:{nombreUsuario}})
+        const cuenta= await Cuenta.findByPk(id)
+
+        if(!cuenta){
+            return res.status(404).json({error: "Cuenta no encontrada"})
+        }
 
         const comment= await Comentario.create({
             comentario,
-            nombreUsuario: cuenta.nombreUsuario,
-
+            cuentaId: id,
         })
 
-
+        return res.status(200).json(comment);
     } catch (error) {
         return res.status(500).json({ error: error.message })
     }
@@ -59,9 +62,9 @@ const desactivarComentario = async (req, res) => {
         return res.status(200).json({ message: "Comentario desactivado correctamente" });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 
 
-module.exports = { getComentarioByUsername, addComentario, desactivarComentario };
+module.exports = { getComentarioById, addComentario, desactivarComentario };

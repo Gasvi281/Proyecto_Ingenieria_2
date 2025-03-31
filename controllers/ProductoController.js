@@ -6,22 +6,22 @@ const getProductoById= async(req, res)=>{
     const producto= await Producto.findOne({where: {id}});
 
     if(!producto){
-        res.status(404).json({error:"No existe este producto."});
+        return res.status(404).json({error:"No existe este producto."});
     }
 
-    res.status(200).json(producto);
+    return res.status(200).json(producto);
 }
 
 const getProductoByNombre = async(req, res)=>{
     const{nombreProducto} = req.params;
 
-    const producto = await Producto.findOne({where: {nombre}});
+    const producto = await Producto.findOne({where: {nombreProducto}});
 
     if(!producto){
-        res.status(404).json({error: "Producto no encontrado"});
+        return res.status(404).json({error: "Producto no encontrado"});
     }
 
-    res.status(200).json(producto);
+    return res.status(200).json(producto);
 }
 
 const addProducto=async(req, res)=>{
@@ -33,11 +33,11 @@ const addProducto=async(req, res)=>{
         const producto= await Producto.create({nombreProducto,
             categoria, 
         })
-        res.status(201).json(producto);
+        return res.status(201).json(producto);
 
 
     }catch(error){
-        res.status(500).json({error: "No se creo el producto"})
+        return res.status(500).json({error: "No se creo el producto"})
     }
 }
 

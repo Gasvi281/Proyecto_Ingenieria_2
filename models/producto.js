@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             );
             Producto.hasMany(models.ProductosLista, { foreignKey: "productoId", as: "elementosLista"}
             );
-            Producto.hasMany(models.Receta,{foreignKey:"productoId", as: "recetas"})
+            Producto.hasMany(models.IngredientesReceta,{foreignKey:"productoId", as: "ingredientes"})
         }
     }
 
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Producto",
-            tableName: "Producto", // Especificar nombre de la tabla
+            tableName: "Productos", // Especificar nombre de la tabla
             timestamps: true, // Agrega createdAt y updatedAt
         }
     );

@@ -14,10 +14,10 @@ const getRecetaByNombre = async (req, res) => {
         });
 
         if (!receta) {
-            res.status(404).json({ error: "uPS" });
+            return res.status(404).json({ error: "Receta no encontrada" });
         }
 
-        res.status(200).json(cuenta);
+        return res.status(200).json(cuenta);
     } catch (error) {
         return res.status(500).json({ error: error.message })
     }
@@ -32,8 +32,10 @@ const getRecetas = async (req, res) => {
                 include: [{ model: Producto, as: "Producto" }]
             }]
         })
-    } catch (error) {
 
+        return res.status(200).json(recetas);
+    } catch (error) {
+        return res.status(500).json({error: error.message});
     }
 }
 

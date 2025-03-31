@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 primaryKey: true,
             },
+            cantidad: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
             recetaId: {
                 type: DataTypes.UUID,
                 allowNull: false,
