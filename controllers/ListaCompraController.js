@@ -73,6 +73,11 @@ const agregarProducto = async (req, res) => {
 
         const productoExiste = await ProductosLista.findOne({ where: { listaId: listaExiste.id, productoId: productoId}})
 
+        if(productoExiste && productoExiste.estado === "Inactivo"){
+            existe.estado = "Activo";
+            return res.status(200).json(existe);
+        }
+
         if(productoExiste){
             return res.status(400).json({ error: "producto ya en lista"});
         }

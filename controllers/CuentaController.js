@@ -60,6 +60,11 @@ const agregarPreferencia = async (req, res) => {
 
         const existe = await CuentaPreferencias.findOne({ where: { cuentaId: id, productoId } })
 
+        if(existe && existe.estado === "Inactivo"){
+            existe.estado = "Activo";
+            return res.status(200).json(existe);
+        }
+
         if (existe) {
             return res.status(400).json({ error: "Producto ya en preferencias" })
         }
@@ -112,6 +117,11 @@ const agregarImpedimento = async (req, res) => {
         }
 
         const existe = await CuentaImpedimientos.findOne({ where: { cuentaId: id, productoId } });
+
+        if(existe && existe.estado === "Inactivo"){
+            existe.estado = "Activo";
+            return res.status(200).json(existe);
+        }
 
         if (existe) {
             return res.status(400).json({ error: "Producto ya en lista" });
