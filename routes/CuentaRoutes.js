@@ -4,6 +4,7 @@ const CuentaController = require("../controllers/CuentaController");
 const authService = require("../services/authService");
 
 router.get("/:id", authService, CuentaController.getCuentaById); //id?
+router.get("/:nombreUsuario", authService, CuentaController.getCuentaByNombreUsuario);
 router.post("/CreateAccount", CuentaController.addCuenta);
 
 router.put("/:id", authService, CuentaController.updateCuenta); //id?

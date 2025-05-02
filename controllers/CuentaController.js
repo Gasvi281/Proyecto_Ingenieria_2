@@ -1,12 +1,58 @@
 const { json } = require("body-parser");
 const { Cuenta, Producto, CuentaImpedimientos, CuentaPreferencias } = require("../models");
 const bcrypt = require("bcryptjs");
+const { where } = require("sequelize");
 
 const getCuentaById = async (req, res) => {
     try {
         const { id } = req.params;
 
         const cuenta = await Cuenta.findByPk(id, {
+            include: [
+                {
+                    model: CuentaImpedimientos,
+                    as: "impedimentos",
+                    include: [{ model: Producto, as: "producto" }]
+                },
+                {
+                    model: CuentaPreferencias,
+                    as: "preferencias",
+                    include: [{ model: Producto, as: "producto" }]
+                },
+                {
+                    model: ListaCompra,
+                    as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
+                    include: [
+                        {
+                            model: ProductosLista,
+                            as: "elementosLista",
+                            include: [
+                                {
+                                    model: Producto,
+                                    as: "producto" // Alias definido en ProductosLista.belongsTo(models.Producto)
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        if (!cuenta) {
+            return res.status(404).json({ error: "Cuenta no encontrada" });
+        }
+
+        return res.status(200).json(cuenta);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+const getCuentaByNombreUsuario = async (req, res) => {
+    try {
+        const { nombreUsuario } = req.params;
+
+        const cuenta = await Cuenta.findOne({where: {nombreUsuario}}, {
             include: [
                 {
                     model: CuentaImpedimientos,
@@ -213,11 +259,11 @@ const addCuenta = async (req, res) => {
 
             impedimentos.push(impedimento)
         }
-        return res.status(201).json(cuenta, preferencias, impedimentos);
+        return res.status(201).json(cuenta);
 
 
     } catch (error) {
-        return res.status(500).json({ error: error.message })
+        return res.status(500).json({ error: error })
     }
 }
 
@@ -277,6 +323,7 @@ const desactivarCuenta = async (req, res) => {
 
 module.exports = {
     getCuentaById,
+    getCuentaByNombreUsuario,
     addCuenta,
     updateCuenta,
     desactivarCuenta,
