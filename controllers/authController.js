@@ -23,7 +23,9 @@ const login = async(req, res)=>{
             { expiresIn: "2h"}
         );
 
-        return res.json({ token });
+        return res.json({ token, id: cuenta.id });
+
+
     } catch (error) {
         return res.status(500).json({error: error.message});
     }
