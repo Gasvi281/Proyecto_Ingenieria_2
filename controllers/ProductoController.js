@@ -12,6 +12,17 @@ const getProductoById= async(req, res)=>{
     return res.status(200).json(producto);
 }
 
+const getProductos= async(req, res)=>{
+    try{
+        const productos = await Producto.findAll();
+        
+        return res.status(200).json(productos);
+    }catch(error){
+        return res.status(404).json({error: "No se encontraron los productos"})
+
+    }
+}
+
 const getProductoByNombre = async(req, res)=>{
     const{nombreProducto} = req.params;
 
@@ -41,4 +52,4 @@ const addProducto=async(req, res)=>{
     }
 }
 
-module.exports = {getProductoById, getProductoByNombre, addProducto};
+module.exports = {getProductoById, getProductoByNombre, addProducto, getProductos};
