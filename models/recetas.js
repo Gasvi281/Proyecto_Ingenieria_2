@@ -20,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
             nombre: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                unique: true,
             },
             dificultad: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                unique: true,
             },
             Categoria: {
                 type: DataTypes.STRING,
