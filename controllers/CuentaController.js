@@ -18,8 +18,8 @@ const getCuentaById = async (req, res) => {
                     model: CuentaPreferencias,
                     as: "preferencias",
                     include: [{ model: Producto, as: "producto" }]
-                }, 
-                // { 
+                },
+                // {
                 //     model: ListaCompra,
                 //     as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
                 //     include: [
@@ -52,7 +52,7 @@ const getCuentaByNombreUsuario = async (req, res) => {
     try {
         const { nombreUsuario } = req.params;
 
-        const cuenta = await Cuenta.findOne({where: {nombreUsuario}}, {
+        const cuenta = await Cuenta.findOne({ where: { nombreUsuario } }, {
             include: [
                 {
                     model: CuentaImpedimientos,
@@ -64,22 +64,22 @@ const getCuentaByNombreUsuario = async (req, res) => {
                     as: "preferencias",
                     include: [{ model: Producto, as: "producto" }]
                 },
-                {
-                    model: ListaCompra,
-                    as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
-                    include: [
-                        {
-                            model: ProductosLista,
-                            as: "elementosLista",
-                            include: [
-                                {
-                                    model: Producto,
-                                    as: "producto" // Alias definido en ProductosLista.belongsTo(models.Producto)
-                                }
-                            ]
-                        }
-                    ]
-                }
+                // {
+                //     model: ListaCompra,
+                //     as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
+                //     include: [
+                //         {
+                //             model: ProductosLista,
+                //             as: "elementosLista",
+                //             include: [
+                //                 {
+                //                     model: Producto,
+                //                     as: "producto" // Alias definido en ProductosLista.belongsTo(models.Producto)
+                //                 }
+                //             ]
+                //         }
+                //     ]
+                // }
             ]
         });
 
@@ -106,7 +106,7 @@ const agregarPreferencia = async (req, res) => {
 
         const existe = await CuentaPreferencias.findOne({ where: { cuentaId: id, productoId } })
 
-        if(existe && existe.estado === "Inactivo"){
+        if (existe && existe.estado === "Inactivo") {
             existe.estado = "Activo";
             return res.status(200).json(existe);
         }
@@ -164,7 +164,7 @@ const agregarImpedimento = async (req, res) => {
 
         const existe = await CuentaImpedimientos.findOne({ where: { cuentaId: id, productoId } });
 
-        if(existe && existe.estado === "Inactivo"){
+        if (existe && existe.estado === "Inactivo") {
             existe.estado = "Activo";
             return res.status(200).json(existe);
         }
@@ -203,9 +203,9 @@ const eliminarImpedimento = async (req, res) => {
         existe.estado = "Inactivo";
         await existe.save();
 
-        return res.status(200).json({message: "Impedimento eliminado correctamente"});
+        return res.status(200).json({ message: "Impedimento eliminado correctamente" });
     } catch (error) {
-        return res.status(500).json({error: error.message});
+        return res.status(500).json({ error: error.message });
     }
 }
 
@@ -217,19 +217,25 @@ const addCuenta = async (req, res) => {
             password,
             ProductosP,
             ProductosI,
+            // ListaCompra,
             // fotoPerfil
-        } = req.body;        
+        } = req.body;
 
-        const cuenta= await Cuenta.create({nombreUsuario, 
-            email, 
-            nombre, 
+        const cuenta = await Cuenta.create({
+            nombreUsuario,
+            email,
+            nombre,
             password,
             // fotoPerfil
         })
 
         const preferencias = []
         const impedimentos = []
- 
+
+         const lista = await ListaCompra.create({
+             cuentaId: cuenta.id
+         })
+
         //Preferencias
         for (const item of ProductosP) {
             const producto = await Producto.findByPk(item.id)
@@ -244,7 +250,7 @@ const addCuenta = async (req, res) => {
 
             preferencias.push(preferencia)
         }
-      
+
         //Impedimentos
         for (const item of ProductosI) {
             const producto = await Producto.findByPk(item.id)
@@ -269,11 +275,11 @@ const addCuenta = async (req, res) => {
 
 const updateCuenta = async (req, res) => {
     try {
-        const{id}=req.params;
-        const{
-            nombreUsuario, 
-            email, 
-            nombre, 
+        const { id } = req.params;
+        const {
+            nombreUsuario,
+            email,
+            nombre,
             password,
             // fotoPerfil
         } = req.body;
@@ -282,10 +288,10 @@ const updateCuenta = async (req, res) => {
         if (!cuenta) {
             return res.status(404).json({ message: "usuario no encontrado" });
         }
-        if(nombreUsuario) cuenta.nombreUsuario=nombreUsuario;
-        if(nombre) cuenta.nombre=nombre;
-        if(email) cuenta.email=email;
-        if(password) cuenta.password=password;
+        if (nombreUsuario) cuenta.nombreUsuario = nombreUsuario;
+        if (nombre) cuenta.nombre = nombre;
+        if (email) cuenta.email = email;
+        if (password) cuenta.password = password;
         // if (fotoPerfil) cuenta.fotoPerfil=fotoPerfil;
 
         await cuenta.save();
