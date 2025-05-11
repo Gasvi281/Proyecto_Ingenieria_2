@@ -283,7 +283,7 @@ const updateCuenta = async (req, res) => {
             password,
             // fotoPerfil
         } = req.body;
-        const cuenta = await Usuario.findByPk(id);
+        const cuenta = await Cuenta.findByPk(id);
 
         if (!cuenta) {
             return res.status(404).json({ message: "usuario no encontrado" });
@@ -291,11 +291,16 @@ const updateCuenta = async (req, res) => {
         if (nombreUsuario) cuenta.nombreUsuario = nombreUsuario;
         if (nombre) cuenta.nombre = nombre;
         if (email) cuenta.email = email;
-        if (password) cuenta.password = password;
+        const salt = await bcrypt.genSalt(10);
+        if (password) cuenta.password = await bcrypt.hash(cuenta.password, salt);
+
+        
+                            
+                            
         // if (fotoPerfil) cuenta.fotoPerfil=fotoPerfil;
 
         await cuenta.save();
-        return res.status(200).json({ message: "Usuario actualizado", usuario });
+        return res.status(200).json({ message: "Usuario actualizado", cuenta });
 
 
     } catch (error) {
