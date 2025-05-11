@@ -9,7 +9,7 @@ module.exports = {
                 allowNull: false,
                 primaryKey: true,
             },
-            cuenta_id: {
+            cuentaId: {
                 type: Sequelize.UUID,
                 allowNull: false,
                 references: {
