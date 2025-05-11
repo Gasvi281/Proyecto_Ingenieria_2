@@ -17,11 +17,11 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 primaryKey: true,
             },
-            cuenta_id: {
+            cuentaId: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 references:{
-                    model: "cuenta",
+                    model: "Cuentas",
                     key: "id",
                 }
             },
