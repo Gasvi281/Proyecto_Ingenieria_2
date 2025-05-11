@@ -19,22 +19,22 @@ const getCuentaById = async (req, res) => {
                     as: "preferencias",
                     include: [{ model: Producto, as: "producto" }]
                 },
-                {
-                    model: ListaCompra,
-                    as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
-                    include: [
-                        {
-                            model: ProductosLista,
-                            as: "elementosLista",
-                            include: [
-                                {
-                                    model: Producto,
-                                    as: "producto" // Alias definido en ProductosLista.belongsTo(models.Producto)
-                                }
-                            ]
-                        }
-                    ]
-                }
+                // {
+                //     model: ListaCompra,
+                //     as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
+                //     include: [
+                //         {
+                //             model: ProductosLista,
+                //             as: "elementosLista",
+                //             include: [
+                //                 {
+                //                     model: Producto,
+                //                     as: "producto" // Alias definido en ProductosLista.belongsTo(models.Producto)
+                //                 }
+                //             ]
+                //         }
+                //     ]
+                // }
             ]
         });
 
@@ -64,22 +64,22 @@ const getCuentaByNombreUsuario = async (req, res) => {
                     as: "preferencias",
                     include: [{ model: Producto, as: "producto" }]
                 },
-                {
-                    model: ListaCompra,
-                    as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
-                    include: [
-                        {
-                            model: ProductosLista,
-                            as: "elementosLista",
-                            include: [
-                                {
-                                    model: Producto,
-                                    as: "producto" // Alias definido en ProductosLista.belongsTo(models.Producto)
-                                }
-                            ]
-                        }
-                    ]
-                }
+                // {
+                //     model: ListaCompra,
+                //     as: "lista", // Verifica que este alias coincida con el definido en las asociaciones
+                //     include: [
+                //         {
+                //             model: ProductosLista,
+                //             as: "elementosLista",
+                //             include: [
+                //                 {
+                //                     model: Producto,
+                //                     as: "producto" // Alias definido en ProductosLista.belongsTo(models.Producto)
+                //                 }
+                //             ]
+                //         }
+                //     ]
+                // }
             ]
         });
 
@@ -217,7 +217,7 @@ const addCuenta = async (req, res) => {
             password,
             ProductosP,
             ProductosI,
-            //ListaCompra,
+            // ListaCompra,
             // fotoPerfil
         } = req.body;
 
@@ -232,9 +232,9 @@ const addCuenta = async (req, res) => {
         const preferencias = []
         const impedimentos = []
 
-        // const lista = await ListaCompra.create({
-        //     cuentaId: cuenta.id
-        // })
+         const lista = await ListaCompra.create({
+             cuentaId: cuenta.id
+         })
 
         //Preferencias
         for (const item of ProductosP) {
