@@ -118,8 +118,7 @@ const eliminarProducto = async (req, res) => {
             return res.status(400).json({error: "No se puede eliminar un producto que no este en la lista"});
         }
 
-        productoExiste.estado = "Inactivo";
-        await productoExiste.save();
+        await productoExiste.destroy();
 
         return res.status(200).json({message: "Producto eliminado correctamente"});
     } catch (error) {
