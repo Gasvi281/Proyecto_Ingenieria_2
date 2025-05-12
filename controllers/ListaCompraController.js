@@ -1,4 +1,4 @@
-const { ListaCompra, Producto, ProductosLista} = require("../models");
+const { ListaCompra, Producto, ProductosLista, Cuenta} = require("../models");
 const listaCompra = require("../models/listaCompra");
 
 const addListaCompra = async (req, res) =>{
@@ -38,10 +38,10 @@ const getListaById = async(req, res) =>{
     try {
         const {id} = req.params;
 
-        const lista = ListaCompra.findByPk({
-            id,
+        const lista = ListaCompra.findOne({
+            where: {cuentaId: id},
             include: [{
-                model: ProductosLista, as: "ProductosLista",
+                model: ProductosLista, as: "elementosLista",
                 include: [{ model: Producto, as: "Producto"}]
             }]
         });

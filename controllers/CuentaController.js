@@ -1,5 +1,5 @@
 const { json } = require("body-parser");
-const { Cuenta, Producto, CuentaImpedimientos, CuentaPreferencias } = require("../models");
+const { Cuenta, Producto, CuentaImpedimientos, CuentaPreferencias, ListaCompra } = require("../models");
 const bcrypt = require("bcryptjs");
 const { where } = require("sequelize");
 
@@ -230,12 +230,16 @@ const addCuenta = async (req, res) => {
             // fotoPerfil
         })
 
+        console.log("cuenta creada con id: ", cuenta.id);
+
         const preferencias = []
         const impedimentos = []
 
         const lista = await ListaCompra.create({
             cuentaId: cuenta.id
         })
+
+         console.log("lista creada con id: ", lista.id);
 
         //Preferencias
         for (const item of ProductosP) {
@@ -270,7 +274,8 @@ const addCuenta = async (req, res) => {
 
 
     } catch (error) {
-        return res.status(500).json({ error: error })
+        console.error("Error en addCuenta:", error);
+        return res.status(500).json({ error: error.message || error.toString() });
     }
 }
 
