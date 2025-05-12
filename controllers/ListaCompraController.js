@@ -38,7 +38,7 @@ const getListaById = async(req, res) =>{
     try {
         const {id} = req.params;
 
-        const lista = ListaCompra.findOne({
+        const lista = await ListaCompra.findOne({
             where: {cuentaId: id},
             include: [{
                 model: ProductosLista, as: "elementosLista",
