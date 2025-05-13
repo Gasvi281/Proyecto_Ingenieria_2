@@ -216,10 +216,6 @@ const addCuenta = async (req, res) => {
             email,
             nombre,
             password,
-            ProductosP,
-            ProductosI,
-            // ListaCompra,
-            // fotoPerfil
         } = req.body;
 
         const cuenta = await Cuenta.create({
@@ -227,13 +223,9 @@ const addCuenta = async (req, res) => {
             email,
             nombre,
             password,
-            // fotoPerfil
         })
 
         console.log("cuenta creada con id: ", cuenta.id);
-
-        const preferencias = []
-        const impedimentos = []
 
         const lista = await ListaCompra.create({
             cuentaId: cuenta.id
@@ -241,38 +233,7 @@ const addCuenta = async (req, res) => {
 
          console.log("lista creada con id: ", lista.id);
 
-        //Preferencias
-        for (const item of ProductosP) {
-            const producto = await Producto.findByPk(item.id)
-            if (!producto) {
-                return res.status(404).json({ error: "Producto no encontrado" });
-            }
-
-            const preferencia = await CuentaPreferencias.create({
-                cuentaId: cuenta.id,
-                productoId: item.id
-            })
-
-            preferencias.push(preferencia)
-        }
-
-        //Impedimentos
-        for (const item of ProductosI) {
-            const producto = await Producto.findByPk(item.id)
-            if (!producto) {
-                return res.status(404).json({ error: "Producto no encontrado" });
-            }
-
-            const impedimento = await CuentaImpedimientos.create({
-                cuentaId: cuenta.id,
-                productoId: item.id
-            })
-
-            impedimentos.push(impedimento)
-        }
         return res.status(201).json(cuenta);
-
-
     } catch (error) {
         console.error("Error en addCuenta:", error);
         return res.status(500).json({ error: error.message || error.toString() });
