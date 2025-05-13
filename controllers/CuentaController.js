@@ -258,8 +258,7 @@ const updateCuenta = async (req, res) => {
         if (nombreUsuario) cuenta.nombreUsuario = nombreUsuario;
         if (nombre) cuenta.nombre = nombre;
         if (email) cuenta.email = email;
-        const salt = await bcrypt.genSalt(10);
-        if (password) cuenta.password = await bcrypt.hash(cuenta.password, salt);
+        if (password) cuenta.password = await bcrypt.hash(password, 10);
 
 
 
