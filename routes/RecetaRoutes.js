@@ -10,5 +10,6 @@ router.post("/", authService, RecetaController.addReceta);
 router.put("/", authService, RecetaController.editarReceta);
 router.post("/ingrediente/:id", authService, RecetaController.agregarIngrediente);
 router.put("/ingrediente/:id", authService, RecetaController.eliminarIngrediente);
+router.put("/desactivar/:id", authService, RecetaController.eliminarReceta);
 
 module.exports = router;

@@ -128,7 +128,21 @@ const editarReceta = async (req, res) =>{
 }
 
 const eliminarReceta = async (req, res) =>{
+    try {
+        const { id } = req.params;
 
+        const receta = await Receta.findByPk(id);
+
+        if(!receta){
+            return res.status(404).json({message: "Receta no encontrada"});
+        }
+
+        receta.estado = "Inactivo";
+
+        return res.satus(200).json({message: "receta desactivada correctamente"});
+    } catch (error) {
+        return res.status(500).json({error: error.message});
+    }
 }
 
 const agregarIngrediente = async (req, res) =>{
@@ -190,4 +204,5 @@ module.exports = { getRecetaByNombre,
     addReceta, 
     editarReceta, 
     agregarIngrediente, 
-    eliminarIngrediente};
+    eliminarIngrediente, 
+    eliminarReceta};
