@@ -81,7 +81,7 @@ const addReceta = async (req,res) =>{
         const ings = [];
 
         for(const i of ingredientes){
-            const ingrediente = await IngredientesReceta.findByPk(i.id);
+            const ingrediente = await Producto.findByPk(i.producto.id);
             if(!ingrediente){
                 await receta.destroy();
                 return res.status(404).json({error: "Ingrediente no encontrado"});
@@ -89,14 +89,14 @@ const addReceta = async (req,res) =>{
 
             const ing = await IngredientesReceta.create({
                 recetaId: receta.id,
-                productoId: i.id,
+                productoId: i.producto.id,
                 cantidad: i.cantidad
             })
 
             ings.push(ing);
         }
 
-        return res.status(201).json(receta, ings);
+        return res.status(201).json({receta, ings});
     } catch (error) {
         return res.status(500).json({ error: error.message || error.toString() });
     }
@@ -110,7 +110,7 @@ const editarReceta = async (req, res) =>{
             Categoria
         } = req.body;
 
-        const receta = await Receta.getRecetaById(id);
+        const receta = await Receta.findByPk(id);
 
         if(!receta){
             return res.status(404).json({ message: "Receta no encontrada"});
@@ -127,19 +127,24 @@ const editarReceta = async (req, res) =>{
     }
 }
 
-const eliminarReceta = async (req, res) =>{
+const changeRecetaStatus = async (req, res) =>{
     try {
         const { id } = req.params;
+        const { estado } = req.body;
+
+        if (!["Activo", "Inactivo"].includes(estado)) {
+            return res.status(400).json({ error: "Estado inválido. Use 'Activo' o 'Inactivo'." });
+        }
 
         const receta = await Receta.findByPk(id);
 
         if(!receta){
             return res.status(404).json({message: "Receta no encontrada"});
         }
+        receta.estado = estado;
+        await receta.save();
 
-        receta.estado = "Inactivo";
-
-        return res.satus(200).json({message: "receta desactivada correctamente"});
+        return res.status(200).json({message: "receta desactivada correctamente"});
     } catch (error) {
         return res.status(500).json({error: error.message});
     }
@@ -205,4 +210,4 @@ module.exports = { getRecetaByNombre,
     editarReceta, 
     agregarIngrediente, 
     eliminarIngrediente, 
-    eliminarReceta};
+    changeRecetaStatus};
