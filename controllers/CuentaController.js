@@ -142,7 +142,6 @@ const eliminarPreferencia = async (req, res) => {
             return res.status(400).json({ error: "Producto no en la lista" });
         }
 
-        // 🔴 Aquí también eliminamos físicamente
         await existe.destroy();
 
         return res.status(200).json({ message: "Preferencia eliminada correctamente" });
@@ -200,7 +199,6 @@ const eliminarImpedimento = async (req, res) => {
             return res.status(400).json({ error: "Producto no en la lista" });
         }
 
-        // 🔴 Aquí eliminamos realmente el registro
         await existe.destroy();
 
         return res.status(200).json({ message: "Impedimento eliminado correctamente" });
@@ -248,7 +246,6 @@ const updateCuenta = async (req, res) => {
             email,
             nombre,
             password,
-            // fotoPerfil
         } = req.body;
         const cuenta = await Cuenta.findByPk(id);
 
@@ -259,11 +256,6 @@ const updateCuenta = async (req, res) => {
         if (nombre) cuenta.nombre = nombre;
         if (email) cuenta.email = email;
         if (password) cuenta.password = await bcrypt.hash(password, 10);
-
-
-
-
-        // if (fotoPerfil) cuenta.fotoPerfil=fotoPerfil;
 
         await cuenta.save();
         return res.status(200).json({ message: "Usuario actualizado", cuenta });
